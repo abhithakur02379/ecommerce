@@ -2,6 +2,7 @@ package testcases;
 
 import Util.Launcher;
 import org.slf4j.Logger;
+import org.testng.annotations.Parameters;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,13 +22,14 @@ public class Driver {
         ob.mainDriver("Chrome");
     }
 
+    @Parameters("Browser")
     public void mainDriver(String testingBrowser){
         try {
             userDir = System.getProperty("user.dir");
             file_TestData = "MasterTestData.xlsx";
             objLauncher.InvokeLauncher(testingBrowser);
         } catch (Exception e) {
-            logger.info("Exception in testcases.Driver.mainDriver is " + e);
+            logger.error("Exception in testcases.Driver.mainDriver is " + e);
         }
     }
 

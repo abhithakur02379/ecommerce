@@ -41,15 +41,15 @@ public class HtmlReporter extends ExcelUtils{
 
         try {
             setExcelFile(Constants.Path_TestData + Driver.file_TestData, "Configuration");
-            htmlReport =  getCellData(2,1);
-            captureScreen = getCellData(3,1);
-            appEnv = getCellData(4,1);
-            appCycle = getCellData(5,1);
-            appUrl = getCellData(6,1);
-            executionType = getCellData(7,1);
+            htmlReport = getCellData(1, 1);
+            captureScreen = getCellData(2, 1);
+            appEnv = getCellData(3, 1);
+            appCycle = getCellData(4, 1);
+            appUrl = getCellData(5, 1);
+            executionType = getCellData(6, 1);
             tc_no = 0;
 
-            DateFormat dataFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
+            DateFormat dataFormat = new SimpleDateFormat("dd-MM-yyy HH-mm-ss");
             Date date = new Date();
             String NowDateTime = dataFormat.format(date);
             dirPath = Driver.userDir + "\\TestResults\\" + "Result_" + preferBrowser + "_" + NowDateTime;
@@ -59,16 +59,24 @@ public class HtmlReporter extends ExcelUtils{
         }
     }
 
-
     public void startResult(String browser){
 
         try {
             extentReports = new ExtentReports(dirPath + "\\Result_" + browser + ".html", false);
             extentReports.addSystemInfo("Browser", browser);
+
             setExcelFile(Constants.Path_TestData + Driver.file_TestData, "Configuration");
             String sURL = getCellData(5,1);
-            if (!(sURL.equalsIgnoreCase(""))){
+            if (!(sURL.equalsIgnoreCase(""))) {
                 extentReports.addSystemInfo("URL", sURL);
+                extentReports.addSystemInfo("Env", appEnv);
+//                extentReports.addSystemInfo("Author", "Abhishek Singh");
+//                extentReports.addSystemInfo("Browser", Browser);
+//                extentReports.addSystemInfo("OS", OSName);
+//                extentReports.addSystemInfo("OS Version", OSVersion);
+//                extentReports.addSystemInfo("OS Architecture", OSArchitecture);
+//                extentReports.addSystemInfo("OS Bit", OSBit);
+//                extentReports.addSystemInfo("JAVA Version", System.getProperty("java.version"));
             }
             extentReports.loadConfig(new File(Constants.Path_Plugin + "\\extent-config.xml"));
         } catch (Exception e) {
@@ -103,10 +111,11 @@ public class HtmlReporter extends ExcelUtils{
 
             switch (screenShotCapture){
                 case "On Every Step" :
+                    Thread.sleep(500);
                     snapPath = takeSnap(driver, description);
                     break;
                 case "On Error" :
-                    if (status.toUpperCase().equals("FAIL")){
+                    if (status.equalsIgnoreCase("FAIL")) {
                         snapPath = takeSnap(driver, description);
                     }
                     break;
@@ -134,7 +143,7 @@ public class HtmlReporter extends ExcelUtils{
                     extentTest.log(LogStatus.FATAL, "Desc: " + description + " -||- Expected: " + expected + " -||- Actual: " + actual + extentTest.addScreenCapture(ScreenShotPath));
                 }
             }
-            logger.info("Desc: " + description + " -||- Expected: " + expected + " -||- Actual: " + actual + " - Status: " + status);
+            System.out.printf("Desc : " + description + " || Expected: " + expected + " || Actual: " + actual + " || Status: " + status);
         } catch (Exception e) {
             logger.error("Error in HtmlReporter.WriteStep is " + e);
         }
@@ -153,7 +162,7 @@ public class HtmlReporter extends ExcelUtils{
         try {
             String browserName = driver.toString();
             if (browserName.contains("Chrome")){
-                strGetScreenShotPath = System.getProperty("ScreenShotPath_Chrome");
+                strGetScreenShotPath = System.getProperty("ScreenshotPath_Chrome");
             } else if (browserName.contains("Firefox")) {
                 strGetScreenShotPath = System.getProperty("ScreenShotPath_Firefox");
             } else if (browserName.contains("Edge")) {
