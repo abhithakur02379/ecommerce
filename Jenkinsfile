@@ -1,33 +1,28 @@
 pipeline {
+
     agent any
-
-    stages {
-
-        stage ('Compile Stage'){
-            steps{
-                withMaven(maven : '3.8.6'){
-                                sh 'mvn clean compile'
-                            }
-                }
-            }
-
-
-        stage ('Testing Stage'){
-            steps{
-                withMaven(maven : '3.8.6'){
-                                sh 'mvn test'
-                            }
-                }
-            }
-
-
-        stage ('Deployment Stage'){
-            steps{
-                withMaven(maven : '3.8.6'){
-                                sh 'mvn deploy'
-                            }
-                }
-            }
-
+    tools {
+        maven 'Maven_3.8.1'
     }
+    stages {
+        stage('Compile stage') {
+            steps {
+                bat "mvn clean compile"
+        }
+    }
+
+         stage('testing stage') {
+             steps {
+                bat "mvn test"
+        }
+    }
+
+          stage('deployment stage') {
+              steps {
+                bat "mvn deploy"
+        }
+    }
+
+  }
+
 }
