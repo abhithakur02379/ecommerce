@@ -3,6 +3,7 @@ package testcases;
 import Util.Launcher;
 import org.slf4j.Logger;
 import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class Driver {
     public static Map<String, String> dictionary = new HashMap<>();
     Launcher objLauncher = new Launcher();
 
+    @Test
     public static void main(String[] args){
         Driver ob = new Driver();
         ob.mainDriver("Chrome");
