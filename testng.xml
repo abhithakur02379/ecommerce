@@ -1,0 +1,17 @@
+<suite name="Suite">
+
+    <test name="test">
+        <parameter name="Browser" value="Chrome">
+            <classes>
+                <class name="testcases.Driver">
+
+                </class>
+            </classes>
+
+
+        </parameter>
+
+    </test>
+
+
+</suite>
